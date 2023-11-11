@@ -71,7 +71,7 @@ def delete_assistant():
 
 
 @assistant_bp.route('/thread/create', methods=['GET'])
-def new_thread():
+def new_thread():   
     """
     为助手创建一个新的线程。
 
@@ -113,13 +113,13 @@ def run():
         return jsonify({'error': 'message is required'}), 400
     
     try:
+        # Run.send_message(thread_id=thread_id, message=message)
         client.beta.threads.messages.create(
-        thread_id=thread_id,
-        role="user",
-        content=message
+            thread_id=thread_id,
+            role="user",
+            content=message
         )
         run = Run(client=client, assistant_id=assistant_id, thread_id=thread_id)
-        # run.send_message(message=message)
         response = run.get_response()
     except Exception as e:
         return jsonify({'error': str(e)}), 400

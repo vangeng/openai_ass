@@ -1,5 +1,7 @@
 import time
 
+import openai
+
 
 class Assistant:
     def __init__(self, client, name, instruction, model='gpt-4-1106-preview'):
@@ -18,11 +20,11 @@ class Assistant:
         )
         return assistant.id
 
-    def delete(self):
-        response = self.client.beta.assistants.delete(self.id)
+    def delete(assistant_id):
+        response = client.beta.assistants.delete(assistant_id=assistant_id)
         return response
 
-    def list(self, client, order="desc", limit="20"):
+    def list(client, order="desc", limit="20"):
         my_assistants = client.beta.assistants.list(
             order=order,
             limit=limit,
@@ -52,9 +54,9 @@ class Run:
         )
         return run
     
-    # def send_message(self, message):
-    #     self.client.beta.threads.messages.create(
-    #     thread_id=self.thread_id,
+    # def send_message(thread_id, message):
+    #     client.beta.threads.messages.create(
+    #     thread_id=thread_id,
     #     role="user",
     #     content=message
     #     )
@@ -76,3 +78,17 @@ class Run:
         respone = messages.data[0].content[0]
         if respone.type == 'text':
             return respone.text.value
+        
+    
+# if __name__ == "__main__":
+#     import os
+#     from flask.cli import load_dotenv
+
+#     load_dotenv()
+#     api_key = os.getenv('OPENAI_API_KEY')
+#     print('api_key:', api_key)
+#     os.environ["OPENAI_API_KEY"] = api_key
+#     client = openai.Client()
+    
+#     data = Assistant.list(client=client) 
+#     print(data)
